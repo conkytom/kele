@@ -1,14 +1,17 @@
 require 'httparty'
 require 'json'
 require './lib/roadmap'
+require './lib/messages'
 
 class Kele
     include HTTParty
     include RoadMap
+    include Messages
 
     def initialize(email, pass)
+        @email = email
         @base_url = 'https://www.bloc.io/api/v1'           
-        response = self.class.post(@base_url+"/sessions", body: {"email": email, "password": pass})
+        response = self.class.post(@base_url+"/sessions", body: {"email": @email, "password": pass})
         @auth_token = response["auth_token"]
         if @auth_token == nil
             puts "There was an error in your username or password."
