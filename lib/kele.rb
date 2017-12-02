@@ -30,14 +30,16 @@ class Kele
         JSON.parse(availability.body)
     end
 
-    def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment, enrollment_id)
-        submission = self.class.pot(@base_url+"/checkpoint_submissions",
-            headers: @header,
+    def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment)
+        @enrollment_id = get_me["current_enrollment"]["id"]
+        submission = self.class.post(@base_url+"/checkpoint_submissions",
             body: {
                 checkpoint_id: checkpoint_id,
                 assignment_branch: assignment_branch,
                 assignment_commit_link: assignment_commit_link,
                 comment: comment,
-                enrollment_id: enrollment_id })
+                enrollment_id: @enrollment_id },
+            headers: @header)
+        puts submission
     end
 end
